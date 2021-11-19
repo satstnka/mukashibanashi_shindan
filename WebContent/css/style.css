@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+#error {
+	color: red;
+	font-weight: bold;
+}
+
+#buttons {
+	margin-top: 15px;
+}
+
+#result {
+	font-size: 40px;
+	font-weight: bold;
+	color: red;
+}
