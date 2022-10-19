@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="cc.shinbi.shindan.model.Shindan" %>
-<%@ page import="cc.shinbi.shindan.model.Question" %>
-<%@ page import="cc.shinbi.shindan.model.Item" %>
+<%@ page import="jp.trans_it.shindan.model.Shindan" %>
+<%@ page import="jp.trans_it.shindan.model.Question" %>
+<%@ page import="jp.trans_it.shindan.model.Item" %>
 
 <%
 	String message = (String)request.getAttribute("message");
@@ -14,7 +14,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>むかしばなし診断</title>
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
 		<h1>むかしばなし診断</h1>
@@ -26,7 +26,7 @@
 <%
 	}
 %>
-		<form method="post" action="${pageContext.request.contextPath}/result">
+		<form method="post" action="result">
 			<h3>あなたのお名前は?</h3>
 			<input type="text" name="name">
 <%

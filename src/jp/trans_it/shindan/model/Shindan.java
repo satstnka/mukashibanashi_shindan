@@ -1,5 +1,9 @@
 package jp.trans_it.shindan.model;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,12 +12,11 @@ import java.util.List;
 public class Shindan {
 	private List<Result> results;
 	private List<Question> questions;
-
-	private Shindan() {
-		this.results = new ArrayList<Result>();
-		this.questions = new ArrayList<Question>();
+	
+	public Shindan() throws IOException {
+		init();
 	}
-
+	
 	public List<Result> getResults() {
 		return results;
 	}
@@ -22,91 +25,64 @@ public class Shindan {
 		return questions;
 	}
 
-	public void shuffle() {
-		for(Question question : this.questions) {
+	private void init() throws IOException {
+		InputStream stream = Shindan.class.getResourceAsStream("shindan.csv");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+		
+		this.results = createResults(reader);
+		this.questions = createQuestions(reader);
+		shuffle();
+		
+		reader.close();
+		stream.close();
+	}
+
+	private List<Result> createResults(BufferedReader reader) throws IOException {
+		List<Result> results = new ArrayList<Result>();
+		
+		String line = reader.readLine();
+		String[] names = line.split(",");
+		
+		line = reader.readLine();
+		String[] descriptions = line.split(",");
+		
+		for(int i = 1; i < names.length && i < descriptions.length; i++) {
+			Result result = new Result(names[i], descriptions[i]);
+			results.add(result);
+		}
+
+		return results;
+	}
+
+	private List<Question> createQuestions(BufferedReader reader) throws IOException {
+		List<Question> questions = new ArrayList<Question>();
+		
+		int counter = 1;
+		String line = null;
+		while((line = reader.readLine()) != null) {
+			String[] tokens = line.split(",");
+			if(tokens.length >= this.results.size() + 1) {
+				Question question = new Question("q" + counter, tokens[0]);
+				for(int i = 1; i < tokens.length; i++) {
+					question.addItem(i - 1,  tokens[i]);
+				}
+				questions.add(question);
+				counter++;
+			}
+		}
+		
+		return questions;
+	}
+
+	
+	private void shuffle() {
+		for(int i = 0; i < this.questions.size(); i++) {
+			Question question = this.questions.get(i);
 			question.shuffle();
 		}
 		Collections.shuffle(this.questions);
 	}
 
-	private static List<Result> getResultList() {
-		Result[] results = {
-			new Result(
-				"ももたろう",
-				"だれとでも仲良くなれる素質を持っています。"
-			),
-			new Result(
-				"かぐやひめ",
-				"ずっと周りから大切にされるでしょう。"
-			),
-			new Result(
-				"うらしまたろう",
-				"とてもやさしい性格をしていますが、それでたまに失敗してしまうかもしれません。"
-			),
-			new Result(
-				"ねずみのよめいり",
-				"行動力が旺盛で移動範囲も広いです。ですが大切なものは意外と近くにあるかも"
-			)
-		};
-
-		List<Result> list = Arrays.asList(results);
-		return list;
-	}
-
-	private static List<Question> getQuestionList()  {
-		List<Question> list = new ArrayList<Question>();
-
-		Question question1 = new Question("q1", "次の中で行きたい場所は?");
-		question1.addItem(0, "のんびりとした「島」");
-		question1.addItem(1, "思い切って「月」");
-		question1.addItem(2, "雄大な「海」");
-		question1.addItem(3, "やっぱり「ディズニーランド」");
-		list.add(question1);
-
-		Question question2 = new Question("q2", "あなたが好きな食べ物は?");
-		question2.addItem(0, "甘くてジューシーな「桃」");
-		question2.addItem(1, "春の味覚「たけのこ」");
-		question2.addItem(2, "やっぱり海の幸「お刺身」");
-		question2.addItem(3, "香り豊かな「チーズ」");
-		list.add(question2);
-
-		Question question3 = new Question("q3", "自然な王様といえば?");
-		question3.addItem(0, "川");
-		question3.addItem(1, "空");
-		question3.addItem(2, "海");
-		question3.addItem(3, "太陽");
-		list.add(question3);
-
-		Question question4 = new Question("q4", "休日は何をしてすごす?");
-		question4.addItem(0, "仲間と楽しく「ボート」に乗る");
-		question4.addItem(1, "自宅で風流に「お月見」");
-		question4.addItem(2, "優雅に海で「ダイビング」");
-		question4.addItem(3, "のんびりと「散歩」");
-		list.add(question4);
-
-		Question question5 = new Question("q5", "あなたが好きな動物は?");
-		question5.addItem(0, "犬");
-		question5.addItem(1, "うさぎ");
-		question5.addItem(2, "かめ");
-		question5.addItem(3, "ねずみ");
-		list.add(question5);
-
-		return list;
-	}
-
-	public static Shindan createShindan() {
-		Shindan shindan = new Shindan();
-
-		List<Result> results = getResultList();
-		shindan.getResults().addAll(results);
-
-		List<Question> questions = getQuestionList();
-		shindan.getQuestions().addAll(questions);
-
-		shindan.shuffle();
-
-		return shindan;
-	}
 
 	public Result check(List<Integer> answers) {
 		int[] counters = new int[this.results.size()];

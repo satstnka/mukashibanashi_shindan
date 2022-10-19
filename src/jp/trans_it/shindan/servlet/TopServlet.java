@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cc.shinbi.shindan.model.Shindan;
+import jp.trans_it.shindan.model.Shindan;
 
 @WebServlet("/top")
 public class TopServlet extends HttpServlet {
@@ -23,7 +23,7 @@ public class TopServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
-		Shindan shindan = Shindan.createShindan();
+		Shindan shindan = new Shindan();
 		request.setAttribute("shindan", shindan);
 		session.setAttribute("shindan", shindan);
 

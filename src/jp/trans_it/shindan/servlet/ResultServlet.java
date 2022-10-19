@@ -12,8 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cc.shinbi.shindan.model.Result;
-import cc.shinbi.shindan.model.Shindan;
+import jp.trans_it.shindan.model.Result;
+import jp.trans_it.shindan.model.Shindan;
+
 
 @WebServlet("/result")
 public class ResultServlet extends HttpServlet {
