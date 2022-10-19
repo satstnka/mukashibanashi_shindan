@@ -9,18 +9,35 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * 診断システム管理オブジェクト
+ * (質問および結果一覧管理)
+ */
 public class Shindan {
 	private List<Result> results;
 	private List<Question> questions;
 	
+	/**
+	 * コンストラクター
+	 * @throws IOException 入出力の例外
+	 */
 	public Shindan() throws IOException {
 		init();
 	}
-	
+
+	/**
+	 * 結果一覧を取得する
+	 * @return 結果一覧
+	 */
 	public List<Result> getResults() {
 		return results;
 	}
 
+	/**
+	 * 質問一覧を取得する
+	 * @return 質問一覧
+	 */
 	public List<Question> getQuestions() {
 		return questions;
 	}
@@ -84,6 +101,11 @@ public class Shindan {
 	}
 
 
+	/**
+	 * 入力パラメーターから結果を取得する
+	 * @param answers 選択パラメーター(数値)一覧
+	 * @return 結果オブジェクト
+	 */
 	public Result check(List<Integer> answers) {
 		int[] counters = new int[this.results.size()];
 		Arrays.fill(counters, 0);

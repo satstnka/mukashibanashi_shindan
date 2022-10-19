@@ -22,7 +22,7 @@ class ShindanTest {
 		
 		System.out.println("■ 質問一覧");
 		for(Question question : shindan.getQuestions()) {
-			System.out.println("   ●" + question.getQuestion());
+			System.out.println("   ● " + question.getKey() + ": " + question.getQuestion());
 			for(Item item : question.getItems()) {
 				System.out.println("      " + item.getId() + " - " + item.getText());
 			}
