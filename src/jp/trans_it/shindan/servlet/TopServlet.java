@@ -14,12 +14,7 @@ import jp.trans_it.shindan.model.Shindan;
 
 @WebServlet("/top")
 public class TopServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-    public TopServlet() {
-        super();
-    }
-
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 

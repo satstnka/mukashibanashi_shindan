@@ -126,7 +126,4 @@ public class Shindan {
 
 		return this.results.get(index);
 	}
-	
-	
-	
 }

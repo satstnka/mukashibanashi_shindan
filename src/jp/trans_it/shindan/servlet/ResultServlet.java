@@ -18,12 +18,7 @@ import jp.trans_it.shindan.model.Shindan;
 
 @WebServlet("/result")
 public class ResultServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-    public ResultServlet() {
-        super();
-    }
-
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
@@ -39,12 +34,22 @@ public class ResultServlet extends HttpServlet {
 			jsp = "/WEB-INF/jsp/top.jsp";
 		}
 		else {
-			String[] keys = {"q1", "q2", "q3", "q4", "q5"};
+			int counter = 1;
+			boolean loop = true;
 			List<Integer> answers = new ArrayList<Integer>();
-			for(String key : keys) {
+			
+			while(loop) {
+				String key = "q" + counter;
 				String value = request.getParameter(key);
-				answers.add(Integer.parseInt(value));
+				if(value == null) {
+					loop = false;
+				}
+				else {
+					answers.add(Integer.parseInt(value));
+				}
+				counter++;
 			}
+
 			Result result = shindan.check(answers);
 
 			request.setAttribute("result", result);
