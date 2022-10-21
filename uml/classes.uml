@@ -1,0 +1,37 @@
+@startuml
+scale 1.2
+
+class Result{
+ 	- {field} name (名前)
+ 	- {field} description (説明)
+}
+note bottom: 診断結果 (例: ももたろう)
+
+class Question {
+    - {field} key (問題識別のキー 例: q1)
+    - {field} question (質問文)
+    - {field} items (選択肢一覧)
+    + {method} addItem (選択肢を追加する)
+    + {method} shuffle (選択肢をシャッフルする)    
+}
+note bottom: 質問 (1質問で1オブジェクト)
+
+class Item {
+    - id {field} 相当する結果の ID
+    - name {field} 文字列}
+}
+note bottom: 選択肢 (1つの選択肢で1オブジェクト)
+
+class Shindan {
+    - results {field} 診断結果一覧
+    - questions {field} 質問一覧
+    + {method} shuffle (質問をシャッフルする)    
+    + check {method} 回答から診断結果を取得する
+}
+note top: 診断情報管理クラス
+
+Question *- Item
+Shindan *-down- Question
+Shindan *-down- Result
+
+@enduml
